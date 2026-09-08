@@ -1,0 +1,161 @@
+INTERVIEW EVALUATION GUIDELINES
+
+=== SCORING RUBRIC (0–10) ===
+
+Score 9–10 (Excellent):
+- Answer directly addresses the question with no ambiguity
+- Demonstrates deep understanding of the concept
+- Includes concrete examples or code snippets where appropriate
+- Shows awareness of trade-offs, edge cases, and alternatives
+- Answer is well-structured (uses STAR for behavioral, explanation→example→implication for technical)
+- Goes beyond the basics to demonstrate genuine expertise
+- Uses precise technical vocabulary correctly
+
+Score 7–8 (Good):
+- Answer correctly addresses the main question
+- Demonstrates solid understanding with minor gaps
+- Includes a relevant example but may lack specificity
+- Structure is clear but could be more organized
+- Vocabulary is appropriate; occasional imprecision
+- Shows awareness of some trade-offs
+
+Score 5–6 (Adequate):
+- Answer is partially correct; covers the surface but misses depth
+- Understanding is present but with noticeable gaps
+- Example is generic or missing
+- Answer could be more focused or structured
+- Some technical terms used incorrectly or imprecisely
+- Does not address trade-offs or edge cases
+
+Score 3–4 (Needs Improvement):
+- Answer is mostly incorrect or incomplete
+- Shows only surface-level understanding
+- No concrete example or example is irrelevant
+- Answer is disorganized or rambling
+- Multiple technical misconceptions present
+- Does not address what was actually asked
+
+Score 1–2 (Poor):
+- Answer barely addresses the question
+- Significant factual errors or contradictions
+- No structure or coherence
+- Critical concepts misunderstood or confused
+- Very limited vocabulary in the subject area
+
+Score 0 (No Answer / Completely Incorrect):
+- No attempt or completely off-topic
+- Demonstrates no understanding of the subject
+
+=== EVALUATION DIMENSIONS ===
+
+1. TECHNICAL ACCURACY
+- Are facts, definitions, and concepts correct?
+- Is terminology used precisely?
+- Are any statements misleading or false?
+
+2. DEPTH OF UNDERSTANDING
+- Does the candidate explain the "why" not just the "what"?
+- Do they mention underlying mechanisms?
+- Do they understand implications and consequences?
+
+3. PRACTICAL APPLICATION
+- Are real-world examples included?
+- Does the candidate connect theory to practice?
+- Do they mention tools, frameworks, or actual implementation details?
+
+4. COMMUNICATION CLARITY
+- Is the answer logically structured?
+- Is it easy to follow?
+- Does it stay on topic?
+- Is the length appropriate (not too brief, not rambling)?
+
+5. CRITICAL THINKING
+- Does the candidate mention trade-offs?
+- Do they acknowledge limitations?
+- Do they compare alternatives?
+- Do they think about edge cases?
+
+=== FEEDBACK FORMULATION GUIDELINES ===
+
+Strengths (what to identify):
+- Correct use of technical terminology
+- Clear and specific examples
+- Structured answer format
+- Mention of trade-offs
+- Practical insights from experience or projects
+
+Weaknesses (what to identify):
+- Missing key concepts
+- Factual inaccuracies (state the correct fact)
+- Lack of examples
+- Poor structure or focus
+- Generic answers without specifics
+- Missing trade-offs or depth
+
+Model Answer (what to include):
+- Complete, accurate answer to the question
+- Well-organized structure
+- Key technical points with brief explanations
+- Concrete example or use case
+- Mention of at least one trade-off or alternative
+
+Recommendations (how to phrase):
+- Be specific and actionable ("Study the difference between X and Y using [resource type]")
+- Suggest practice approaches ("Practice implementing X from scratch to solidify understanding")
+- Reference specific areas ("Review database indexing strategies, particularly B-tree internals and composite indexes")
+- Be encouraging but honest ("This is a strong foundation — to elevate to 9/10, add a concrete project example")
+
+=== BEHAVIORAL ANSWER EVALUATION ===
+
+STAR Method Assessment:
+- Situation: Is the context clear and relevant?
+- Task: Is the candidate's specific responsibility clear?
+- Action: Are specific, individual actions described (not "we did X")?
+- Result: Is there a concrete, measurable outcome?
+
+Red flags in behavioral answers:
+- Uses "we" throughout without clarifying personal contribution
+- Vague or generic answers without specifics
+- No clear outcome or resolution
+- Speaks negatively about colleagues or managers
+- Chooses trivial or irrelevant situations
+
+Green flags in behavioral answers:
+- Specific names, dates, technologies, or metrics
+- Clear personal ownership ("I decided to...", "I reached out to...")
+- Reflects on what they would do differently (growth mindset)
+- Quantified results ("reduced by 25%", "completed 2 weeks early")
+
+=== HR ANSWER EVALUATION ===
+
+Evaluate for:
+- Authenticity and self-awareness
+- Preparation and research (company knowledge questions)
+- Career narrative coherence
+- Professionalism and communication skills
+- Cultural fit signals (collaboration, ownership, growth mindset)
+
+Common HR answer weaknesses:
+- Generic, templated answers that could apply to any company
+- Salary expectations without market research basis
+- "I work too hard" type fake weakness answers
+- "I just want to learn" without specifics in motivation questions
+- No questions asked when given the opportunity ("I have no questions")
+
+=== SCORE ADJUSTMENT GUIDELINES ===
+
+For entry-level / fresh graduates:
+- Expect less hands-on experience; credit strong project examples
+- Credit theoretical knowledge applied to hypothetical scenarios
+- Reward clear learning trajectory and self-study evidence
+- Be more lenient on "lack of professional experience" gaps
+
+For mid-level candidates:
+- Expect concrete professional examples
+- Penalize generic answers more; experience should produce specifics
+- Expect awareness of broader system impact
+
+For senior-level candidates:
+- Expect mentorship, architectural, and cross-team examples
+- Expect discussion of organizational impact, not just individual impact
+- Expect nuanced trade-off analysis

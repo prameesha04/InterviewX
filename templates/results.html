@@ -1,0 +1,190 @@
+{% extends "base.html" %}
+{% block title %}Session Results – {{ sess.id }}{% endblock %}
+
+{% block content %}
+<div class="page-header">
+  <div class="page-header-left">
+    <a href="{{ url_for('index') }}" class="back-link">← Dashboard</a>
+    <h1 class="page-title">Session Results</h1>
+    <p class="page-subtitle">
+      {{ sess.profile.name }} · {{ sess.profile.target_role }} ·
+      <code class="session-id">{{ sess.id }}</code> · {{ sess.started_at }}
+    </p>
+  </div>
+</div>
+
+<!-- ── Summary Cards ── -->
+<div class="results-summary-grid">
+  <div class="summary-card summary-card-main">
+    <div class="summary-score-ring
+      {% if summary.average_score >= 7 %}ring-green{% elif summary.average_score >= 5 %}ring-amber{% else %}ring-red{% endif %}">
+      <span class="summary-score-val">{{ summary.average_score }}</span>
+      <small>/10</small>
+    </div>
+    <div class="summary-score-label">Average Score</div>
+    <div class="performance-badge
+      {% if summary.performance_level == 'Outstanding' %}badge-green
+      {% elif summary.performance_level in ['Strong'] %}badge-blue
+      {% elif summary.performance_level == 'Satisfactory' %}badge-amber
+      {% else %}badge-red{% endif %}">
+      {{ summary.performance_level }}
+    </div>
+  </div>
+
+  <div class="summary-card">
+    <div class="summary-stat-val">{{ summary.total_questions }}</div>
+    <div class="summary-stat-label">Total Questions</div>
+  </div>
+  <div class="summary-card summary-card-green">
+    <div class="summary-stat-val">{{ summary.passed }}</div>
+    <div class="summary-stat-label">Passed (≥6)</div>
+  </div>
+  <div class="summary-card summary-card-red">
+    <div class="summary-stat-val">{{ summary.failed }}</div>
+    <div class="summary-stat-label">Needs Work (&lt;6)</div>
+  </div>
+  <div class="summary-card">
+    <div class="summary-stat-val">{{ summary.highest_score }}/10</div>
+    <div class="summary-stat-label">Highest Score</div>
+  </div>
+  <div class="summary-card">
+    <div class="summary-stat-val">{{ summary.lowest_score }}/10</div>
+    <div class="summary-stat-label">Lowest Score</div>
+  </div>
+</div>
+
+<!-- ── Overall Strengths & Weaknesses ── -->
+<div class="results-insight-row">
+  <div class="card insight-card">
+    <h3 class="insight-title strengths-title">✓ Overall Strengths</h3>
+    <ul class="insight-list list-green">
+      {% for s in summary.top_strengths %}
+        <li>{{ s }}</li>
+      {% else %}
+        <li>No strengths recorded yet.</li>
+      {% endfor %}
+    </ul>
+  </div>
+  <div class="card insight-card">
+    <h3 class="insight-title gaps-title">⚠ Key Areas to Improve</h3>
+    <ul class="insight-list list-amber">
+      {% for w in summary.top_weaknesses %}
+        <li>{{ w }}</li>
+      {% else %}
+        <li>No weaknesses identified.</li>
+      {% endfor %}
+    </ul>
+  </div>
+  <div class="card insight-card">
+    <h3 class="insight-title recs-title">📌 Top Recommendations</h3>
+    <ul class="insight-list list-blue">
+      {% for r in summary.overall_recommendations %}
+        <li>{{ r }}</li>
+      {% else %}
+        <li>No recommendations yet.</li>
+      {% endfor %}
+    </ul>
+  </div>
+</div>
+
+<!-- ── Score Chart ── -->
+<div class="card results-chart-card">
+  <h3>Score Progression</h3>
+  <div class="score-chart-container">
+    {% for pair in qa_pairs %}
+    {% set score = pair.evaluation.score if pair.evaluation else 0 %}
+    <div class="chart-bar-wrap" title="Q{{ loop.index }}: {{ score }}/10">
+      <div class="chart-bar-fill
+        {% if score >= 7 %}bar-green{% elif score >= 5 %}bar-amber{% else %}bar-red{% endif %}"
+        style="height: {{ [score * 10, 5]|max }}%">
+      </div>
+      <div class="chart-bar-label">Q{{ loop.index }}</div>
+      <div class="chart-bar-score">{{ score }}</div>
+    </div>
+    {% endfor %}
+  </div>
+</div>
+
+<!-- ── Per-question breakdown ── -->
+<div class="card results-breakdown-card">
+  <h3 class="breakdown-title">Question-by-Question Breakdown</h3>
+
+  {% for pair in qa_pairs %}
+  {% set q = pair.question %}
+  {% set ev = pair.evaluation %}
+  {% set score = ev.score if ev else 0 %}
+
+  <div class="breakdown-item {% if not loop.first %}breakdown-item-divider{% endif %}">
+    <div class="breakdown-header" onclick="toggleBreakdown({{ loop.index }})">
+      <div class="breakdown-header-left">
+        <span class="breakdown-qnum">Q{{ loop.index }}</span>
+        <span class="breakdown-type type-{{ q.type if q.type else 'technical' }}">{{ (q.type or 'technical')|upper }}</span>
+        <span class="breakdown-question-preview">{{ q.question[:120] }}{% if q.question|length > 120 %}…{% endif %}</span>
+      </div>
+      <div class="breakdown-header-right">
+        <span class="breakdown-score score-badge score-{{ 'high' if score >= 7 else ('mid' if score >= 5 else 'low') }}">
+          {{ score }}/10
+        </span>
+        <span class="breakdown-toggle" id="toggle-{{ loop.index }}">▼</span>
+      </div>
+    </div>
+
+    <div class="breakdown-body hidden" id="breakdown-{{ loop.index }}">
+      <div class="breakdown-section">
+        <strong>Question:</strong>
+        <p>{{ q.question }}</p>
+      </div>
+      <div class="breakdown-section">
+        <strong>Your Answer:</strong>
+        <p class="answer-text">{{ q.answer }}</p>
+      </div>
+      {% if ev %}
+      <div class="breakdown-eval-grid">
+        <div class="breakdown-eval-col">
+          <h5 class="strengths-title">✓ Strengths</h5>
+          <ul class="eval-list eval-list-green">
+            {% for s in ev.strengths %}<li>{{ s }}</li>{% endfor %}
+          </ul>
+        </div>
+        <div class="breakdown-eval-col">
+          <h5 class="weaknesses-title">✗ Weaknesses</h5>
+          <ul class="eval-list eval-list-red">
+            {% for w in ev.weaknesses %}<li>{{ w }}</li>{% endfor %}
+          </ul>
+        </div>
+      </div>
+      <div class="breakdown-section">
+        <h5 class="model-title">💡 Model Answer</h5>
+        <p class="model-answer-text">{{ ev.model_answer }}</p>
+      </div>
+      <div class="breakdown-section">
+        <h5>📌 Recommendations</h5>
+        <ul class="eval-list eval-list-blue">
+          {% for r in ev.recommendations %}<li>{{ r }}</li>{% endfor %}
+        </ul>
+      </div>
+      {% endif %}
+    </div>
+  </div>
+  {% endfor %}
+</div>
+
+<!-- ── Actions ── -->
+<div class="results-actions">
+  <a href="{{ url_for('profile') }}" class="btn btn-primary">Start New Session</a>
+  <a href="{{ url_for('history') }}" class="btn btn-outline">View All Sessions</a>
+  <a href="{{ url_for('index') }}" class="btn btn-ghost">Dashboard</a>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+  function toggleBreakdown(index) {
+    const body = document.getElementById('breakdown-' + index);
+    const toggle = document.getElementById('toggle-' + index);
+    const isHidden = body.classList.contains('hidden');
+    body.classList.toggle('hidden', !isHidden);
+    toggle.textContent = isHidden ? '▲' : '▼';
+  }
+</script>
+{% endblock %}

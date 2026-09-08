@@ -1,0 +1,143 @@
+ROLE-SPECIFIC INTERVIEW KNOWLEDGE BASE
+
+=== SOFTWARE ENGINEER / BACKEND DEVELOPER ===
+
+Core technical areas to prepare:
+- Data structures and algorithms (arrays, trees, graphs, heaps, hash maps)
+- System design (REST APIs, microservices, databases, caching, queuing)
+- Databases (SQL queries, indexing, normalization, NoSQL trade-offs)
+- Language proficiency (Python, Java, Go, Node.js depending on role)
+- Version control (Git workflows, branching strategies, code review)
+- Testing (unit, integration, TDD, mocking)
+- API design (RESTful principles, authentication, rate limiting)
+
+Key questions for Backend roles:
+- Design a rate limiter for an API
+- How do you handle database migrations in production?
+- Explain the difference between synchronous and asynchronous processing
+- What is event-driven architecture and when would you use it?
+- How do you approach API versioning?
+- Describe a caching strategy for a high-traffic application
+- What are database transactions and when do you use them?
+
+=== FRONTEND DEVELOPER ===
+
+Core technical areas:
+- HTML5 semantic elements, accessibility (ARIA), SEO basics
+- CSS (Flexbox, Grid, responsive design, CSS variables, animations)
+- JavaScript (ES6+, closures, event loop, promises, async/await, DOM manipulation)
+- React/Vue/Angular fundamentals (component lifecycle, state management, hooks)
+- Performance optimization (lazy loading, code splitting, bundle size)
+- Browser dev tools, debugging techniques
+- Cross-browser compatibility
+
+Key questions for Frontend roles:
+- What is the virtual DOM and why is it useful?
+- Explain the CSS box model
+- How do you optimize a slow web page?
+- What is CORS and how do you handle it in frontend?
+- Explain event bubbling and capturing
+- How do you manage state in a large React application?
+- What are Web Vitals and why do they matter?
+
+=== FULL STACK DEVELOPER ===
+
+Combines backend and frontend requirements plus:
+- REST API design and consumption
+- Authentication (JWT, OAuth, session-based)
+- Docker basics and deployment
+- CI/CD pipelines
+- Cloud platforms (AWS, GCP, Azure) basics
+
+=== DATA SCIENTIST / ML ENGINEER ===
+
+Core technical areas:
+- Statistics (distributions, hypothesis testing, p-values, confidence intervals)
+- Machine learning algorithms (regression, classification, clustering, decision trees, neural networks)
+- Feature engineering and selection
+- Model evaluation (precision, recall, F1, AUC-ROC, confusion matrix)
+- Python libraries (pandas, NumPy, scikit-learn, TensorFlow/PyTorch)
+- Data preprocessing (handling missing values, normalization, encoding)
+- SQL for data extraction
+
+Key questions for Data Science roles:
+- What is overfitting and how do you prevent it?
+- Explain the bias-variance trade-off
+- How do you handle imbalanced datasets?
+- What is cross-validation and why is it important?
+- Explain the difference between supervised and unsupervised learning
+- When would you use a random forest vs. a neural network?
+- How do you explain your model results to non-technical stakeholders?
+
+=== DEVOPS / CLOUD ENGINEER ===
+
+Core technical areas:
+- Linux/Unix commands and shell scripting
+- Docker and container orchestration (Kubernetes)
+- CI/CD (Jenkins, GitHub Actions, GitLab CI)
+- Infrastructure as Code (Terraform, Ansible)
+- Cloud platforms (AWS, GCP, Azure) — VMs, networking, storage, IAM
+- Monitoring and observability (Prometheus, Grafana, ELK stack)
+- Security (secrets management, least privilege, network security groups)
+
+Key questions for DevOps roles:
+- Explain the difference between Docker and Kubernetes
+- How do you implement zero-downtime deployments?
+- What is infrastructure as code and why is it important?
+- Describe a CI/CD pipeline you have built
+- How do you monitor application health in production?
+- What is a service mesh?
+
+=== PRODUCT MANAGER ===
+
+Core areas:
+- Product lifecycle management
+- Agile/Scrum methodology
+- User story writing and backlog prioritization
+- Metrics and KPI definition
+- Stakeholder communication
+- Competitive analysis and market research
+
+Key questions for PM roles:
+- How do you prioritize features when everything is urgent?
+- How do you define success for a product?
+- Tell me about a product you admire and how you would improve it
+- How do you handle a situation where engineering says a feature will take twice as long as expected?
+- How do you incorporate user feedback into the product roadmap?
+
+=== CYBERSECURITY ANALYST ===
+
+Core technical areas:
+- Network fundamentals (TCP/IP, DNS, HTTP/HTTPS, firewalls)
+- Common attack vectors (SQL injection, XSS, CSRF, phishing, social engineering)
+- Security frameworks (OWASP Top 10, NIST, ISO 27001)
+- Cryptography basics (symmetric vs. asymmetric, TLS/SSL, hashing)
+- Incident response and threat analysis
+- Security tools (Wireshark, Metasploit, Burp Suite, SIEM)
+
+Key questions for Security roles:
+- What is the difference between authentication and authorization?
+- How would you respond to a data breach?
+- Explain public key infrastructure (PKI)
+- What is a man-in-the-middle attack?
+- How do you stay current with emerging threats?
+
+=== COMMON CROSS-ROLE TOPICS ===
+
+Agile methodology:
+- Scrum ceremonies (sprint planning, daily standup, review, retrospective)
+- Kanban boards and workflow visualization
+- Definition of Done vs. Definition of Ready
+- Sprint velocity and burndown charts
+
+Version control:
+- Git branching strategies (GitFlow, trunk-based development)
+- Pull request review best practices
+- Resolving merge conflicts
+- Semantic versioning
+
+Code quality:
+- Code review etiquette and constructive feedback
+- Documentation standards
+- Technical debt management
+- Refactoring vs. rewriting trade-offs

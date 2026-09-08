@@ -1,0 +1,74 @@
+BEHAVIORAL INTERVIEW QUESTIONS KNOWLEDGE BASE
+
+=== STAR METHOD ===
+
+The STAR method is the gold standard for answering behavioral questions:
+- Situation: Set the scene and context
+- Task: Describe your responsibility or challenge
+- Action: Explain the specific steps you took
+- Result: Share the outcome with measurable results when possible
+
+Always quantify results where possible (e.g., "reduced processing time by 30%", "led a team of 5").
+
+=== TEAMWORK & COLLABORATION ===
+
+Q: Tell me about a time you worked effectively in a team.
+Strong answer elements: Specific project context, your defined role, how you communicated, how you handled disagreements, concrete outcome achieved together. Emphasize listening, compromise, and shared ownership.
+
+Q: Describe a situation where you had a conflict with a team member.
+Strong answer elements: Stay professional and objective, focus on the conflict with the idea/approach not the person, describe how you initiated a calm conversation, how you found common ground, and what the resolution was. Never speak negatively about the other person.
+
+Q: How do you handle working with someone whose working style is very different from yours?
+Strong answer elements: Acknowledge different strengths, describe specific adaptation strategies (communication preferences, meeting cadence, documentation), show flexibility and respect for diversity.
+
+Q: Give an example of a time you helped a struggling colleague.
+Strong answer elements: Noticed the issue proactively, offered help without judgment, specific assistance provided (pair programming, knowledge sharing, emotional support), impact on the colleague and the team.
+
+=== LEADERSHIP & INITIATIVE ===
+
+Q: Tell me about a time you took initiative without being asked.
+Strong answer elements: Identified an unaddressed problem or opportunity, decided to act independently, specific actions taken, result and how it benefited the team or organization. Shows ownership mentality.
+
+Q: Describe a time you led a project or team.
+Strong answer elements: How you were given or assumed leadership, how you organized the team, decision-making process, how you motivated others, how you handled setbacks, measurable final outcome.
+
+Q: Tell me about a time you had to make a difficult decision with limited information.
+Strong answer elements: Frame the decision and its stakes, what information you did have, your decision-making framework, how you communicated uncertainty, outcome, and what you learned.
+
+=== PROBLEM SOLVING ===
+
+Q: Describe a challenging problem you solved at work or in a project.
+Strong answer elements: Clear problem description with impact, your structured approach to analysis, alternatives you considered, chosen solution rationale, implementation, and measurable result.
+
+Q: Tell me about a time you had to learn something new quickly.
+Strong answer elements: What needed to be learned and why urgency existed, specific learning strategies used (documentation, tutorials, mentorship, practice), timeline, and how you successfully applied the new knowledge.
+
+Q: Give an example of a time you improved a process.
+Strong answer elements: Original process and its inefficiencies, how you identified the problem, proposed solution, stakeholder buy-in, implementation, and quantified improvement (time saved, error rate reduced, etc.).
+
+=== FAILURE & GROWTH ===
+
+Q: Tell me about a time you failed.
+Strong answer elements: Be honest and own the mistake, describe the context and what went wrong, what you learned, and most importantly what you did differently afterward. Shows self-awareness and growth mindset. Avoid trivial failures.
+
+Q: Describe a time you received critical feedback. How did you respond?
+Strong answer elements: Context of the feedback, your initial reaction (stay professional), specific actions you took to address it, the outcome. Demonstrates openness to improvement and coachability.
+
+Q: Tell me about a project that didn't go as planned.
+Strong answer elements: What the original plan was, what changed, how you adapted, how you communicated changes to stakeholders, final outcome vs. original goal, and key learnings.
+
+=== COMMUNICATION ===
+
+Q: Describe a situation where you had to explain a complex technical concept to a non-technical audience.
+Strong answer elements: Who the audience was and their background, how you assessed their knowledge level, analogies or simplifications you used, whether you used visual aids, how you confirmed understanding, outcome.
+
+Q: Tell me about a time you had to persuade someone who disagreed with you.
+Strong answer elements: The disagreement and stakes, how you listened to their perspective first, data or evidence you presented, how you addressed their concerns, whether you changed their mind or found a compromise.
+
+=== TIME MANAGEMENT & PRIORITIZATION ===
+
+Q: Describe how you manage multiple deadlines.
+Strong answer elements: Specific prioritization framework (urgency vs. importance, stakeholder impact), tools used (task managers, calendars), how you communicate when timelines shift, example of successfully managing competing priorities.
+
+Q: Tell me about a time you were overwhelmed with work. How did you handle it?
+Strong answer elements: Context of the overload, honest assessment, how you reprioritized, whether you asked for help or delegated, what you learned about boundaries and planning.

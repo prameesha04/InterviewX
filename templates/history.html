@@ -1,0 +1,99 @@
+{% extends "base.html" %}
+{% block title %}Session History{% endblock %}
+
+{% block content %}
+<div class="page-header">
+  <div class="page-header-left">
+    <h1 class="page-title">Session History</h1>
+    <p class="page-subtitle">Review your past interview sessions and track your progress over time.</p>
+  </div>
+  {% if history %}
+  <div class="page-header-right">
+    <form method="POST" action="{{ url_for('clear_history') }}"
+          onsubmit="return confirm('Clear all history? This cannot be undone.')">
+      <button type="submit" class="btn btn-danger-outline btn-sm">Clear History</button>
+    </form>
+  </div>
+  {% endif %}
+</div>
+
+{% if history %}
+  <!-- ── Aggregate stats ── -->
+  {% set avg_score = (history | map(attribute='average_score') | list | sum / history|length) | round(1) %}
+  <div class="history-stats-row">
+    <div class="stat-mini-card">
+      <div class="stat-mini-val">{{ history|length }}</div>
+      <div class="stat-mini-label">Total Sessions</div>
+    </div>
+    <div class="stat-mini-card">
+      <div class="stat-mini-val">{{ avg_score }}</div>
+      <div class="stat-mini-label">Average Score</div>
+    </div>
+    <div class="stat-mini-card">
+      <div class="stat-mini-val">{{ history | map(attribute='total_questions') | list | sum }}</div>
+      <div class="stat-mini-label">Questions Answered</div>
+    </div>
+    <div class="stat-mini-card">
+      <div class="stat-mini-val">{{ history | map(attribute='average_score') | list | max }}</div>
+      <div class="stat-mini-label">Best Score</div>
+    </div>
+  </div>
+
+  <!-- ── History table ── -->
+  <div class="card">
+    <div class="history-table-wrap">
+      <table class="data-table">
+        <thead>
+          <tr>
+            <th>#</th>
+            <th>Session ID</th>
+            <th>Candidate</th>
+            <th>Target Role</th>
+            <th>Level</th>
+            <th>Date</th>
+            <th>Questions</th>
+            <th>Avg. Score</th>
+            <th>Performance</th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for item in history %}
+          <tr>
+            <td class="row-num">{{ loop.index }}</td>
+            <td><code class="session-id">{{ item.session_id }}</code></td>
+            <td>{{ item.profile_name }}</td>
+            <td>{{ item.target_role }}</td>
+            <td><span class="skill-badge">{{ item.skill_level | capitalize }}</span></td>
+            <td>{{ item.date }}</td>
+            <td>{{ item.total_questions }}</td>
+            <td>
+              <span class="score-badge score-{{ 'high' if item.average_score >= 7 else ('mid' if item.average_score >= 5 else 'low') }}">
+                {{ item.average_score }}/10
+              </span>
+            </td>
+            <td>
+              <span class="perf-label perf-{{ item.performance_level | lower | replace(' ', '-') }}">
+                {{ item.performance_level }}
+              </span>
+            </td>
+            <td>
+              <a href="{{ url_for('results', session_id=item.session_id) }}"
+                 class="btn btn-sm btn-ghost">View</a>
+            </td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+{% else %}
+  <div class="empty-state">
+    <div class="empty-icon">📋</div>
+    <h3>No sessions in history</h3>
+    <p>Complete your first interview session to see results here.</p>
+    <a href="{{ url_for('profile') }}" class="btn btn-primary">Start Interview</a>
+  </div>
+{% endif %}
+{% endblock %}

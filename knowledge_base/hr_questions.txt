@@ -1,0 +1,61 @@
+HR INTERVIEW QUESTIONS KNOWLEDGE BASE
+
+=== SELF-INTRODUCTION ===
+
+Q: Tell me about yourself.
+Structure: Brief personal intro → educational background → relevant experience/projects → key skills → why you're here. Keep it to 90-120 seconds. Tailor to the role. End by connecting your background to the specific opportunity.
+
+Example framework: "I'm a [year] [degree] graduate from [university] with a strong background in [key skills]. During my studies, I [notable project/internship]. I'm particularly passionate about [relevant area] and I'm excited about this opportunity because [specific reason tied to the company/role]."
+
+Q: Walk me through your resume.
+Focus on trajectory and growth, not just reciting bullet points. Highlight transitions and decisions: why you chose your major, why you pursued certain projects, what skills you developed. Connect past experiences to the target role.
+
+=== MOTIVATION & FIT ===
+
+Q: Why do you want to work for this company?
+Research is non-negotiable. Reference specific: company values or mission, recent news or product launches, technology stack you're excited about, growth opportunities, team culture. Generic answers ("great company, good culture") are immediately penalized.
+
+Q: Why do you want this specific role?
+Connect your skills to the job description specifically. Reference responsibilities in the JD that excite you. Show you understand what day-to-day looks like. Demonstrate how this role advances your career goals.
+
+Q: Where do you see yourself in 5 years?
+Show ambition without overreaching. Align with realistic growth in the company. Examples: "I'd like to grow from a strong individual contributor to a technical lead, deepening expertise in [area]. I'm excited to learn from the team and take on increasing responsibility." Avoid: "running my own company" or "in your position."
+
+Q: What is your greatest strength?
+Pick a strength relevant to the role. Give a specific example that proves it. Avoid clichés ("hardworking", "team player") without evidence. Better: "I'm strong at breaking down complex problems — in my final year project, I was able to [specific example with outcome]."
+
+Q: What is your greatest weakness?
+Be honest but strategic. Choose a real weakness you are actively improving. Describe the specific steps you're taking. Show self-awareness. Avoid: "I work too hard" or "I'm a perfectionist" — interviewers see through this. Example: "I used to struggle with public speaking, so I joined my university's debate club and have since presented at [event]."
+
+=== COMPANY & CULTURE ===
+
+Q: What do you know about our company?
+Demonstrate research: founding story, core products/services, recent achievements, mission statement, competitors, market position. Tie your knowledge to why you want to join specifically.
+
+Q: Why should we hire you?
+This is your pitch. Summarize: unique combination of skills relevant to the role, specific experience or projects that demonstrate impact, quick learner mindset, and enthusiasm for the company. Be confident without being arrogant.
+
+Q: How do you handle stress and pressure?
+Give a specific example. Techniques: breaking large tasks into smaller milestones, prioritization, taking short breaks to maintain focus, communicating early when timelines are at risk. Show you remain productive and composed under pressure.
+
+=== SALARY & LOGISTICS ===
+
+Q: What are your salary expectations?
+Research market rates for the role, location, and your experience level before the interview. Give a data-backed range: "Based on my research and [X] years of experience, I'm targeting $X–$Y, but I'm open to discussion based on the total package." Never say "I'll accept anything."
+
+Q: When can you start?
+If employed: give your notice period honestly. If available: "I can start within [X] days/weeks of receiving an offer, as I want to properly wrap up any ongoing commitments." Shows professionalism.
+
+Q: Do you have any questions for us?
+Always have 3–5 questions prepared. Good questions: "What does success look like in the first 90 days?", "What are the biggest challenges the team is currently facing?", "How do you support professional development?", "What is the team's collaboration style?" Avoid asking about salary/benefits in first round.
+
+=== FRESH GRADUATE SPECIFIC ===
+
+Q: You don't have much work experience. Why should we hire you?
+Reframe around: academic projects with real-world impact, internships, hackathons, open-source contributions, relevant coursework, transferable skills (fast learning, up-to-date knowledge, adaptability, modern tech stack). Show enthusiasm and growth potential.
+
+Q: What did you learn from your most significant academic project?
+Be specific: technology stack, your role, challenges overcome, what you'd do differently, and most importantly, what professional skills you gained (project management, debugging under pressure, stakeholder communication).
+
+Q: How do you stay updated with technology trends?
+Specific sources: tech blogs (Medium, Dev.to, Hacker News), documentation, online courses (Coursera, edX, Udemy), GitHub trending, developer conferences, podcasts. Show you take learning seriously as a habit.

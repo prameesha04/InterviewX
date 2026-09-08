@@ -1,0 +1,88 @@
+TECHNICAL INTERVIEW QUESTIONS KNOWLEDGE BASE
+
+=== DATA STRUCTURES & ALGORITHMS ===
+
+Q: What is the difference between an array and a linked list?
+A: Arrays store elements in contiguous memory with O(1) random access but O(n) insertion/deletion. Linked lists store elements as nodes with pointers, offering O(1) insertion/deletion at known positions but O(n) access. Arrays are cache-friendly; linked lists are flexible in size.
+
+Q: Explain Big O notation.
+A: Big O notation describes the upper bound of an algorithm's time or space complexity as input size n grows. O(1) is constant, O(log n) logarithmic, O(n) linear, O(n log n) linearithmic, O(n²) quadratic. It helps compare algorithm efficiency ignoring hardware constants.
+
+Q: What is a binary search tree (BST)?
+A: A BST is a binary tree where each node's left subtree contains values less than the node and the right subtree contains greater values. Search, insert, and delete are O(log n) average case, O(n) worst case (unbalanced). Self-balancing variants include AVL trees and Red-Black trees.
+
+Q: What is the difference between DFS and BFS?
+A: Depth-First Search (DFS) explores as far as possible before backtracking, using a stack (or recursion). Breadth-First Search (BFS) explores level by level using a queue. BFS finds shortest paths in unweighted graphs; DFS is better for topological sort, cycle detection, and pathfinding in mazes.
+
+Q: Explain dynamic programming.
+A: Dynamic programming solves problems by breaking them into overlapping subproblems, storing solutions to avoid recomputation (memoization or tabulation). Classic examples: Fibonacci, longest common subsequence, knapsack problem, matrix chain multiplication. Key insight: optimal substructure + overlapping subproblems.
+
+Q: What is a hash table and how does it handle collisions?
+A: A hash table maps keys to values using a hash function. Collision resolution methods include: chaining (each bucket holds a linked list), open addressing (linear probing, quadratic probing, double hashing). Average O(1) insert/lookup; O(n) worst case with many collisions.
+
+Q: What is the time complexity of quicksort?
+A: Average O(n log n), worst case O(n²) with bad pivot selection. Best pivot strategies: median-of-three or random selection. In-place with O(log n) average stack space. Practical performance often beats merge sort due to cache locality despite the same average complexity.
+
+=== OBJECT-ORIENTED PROGRAMMING ===
+
+Q: What are the four pillars of OOP?
+A: Encapsulation (bundling data and methods, hiding internal state), Inheritance (deriving new classes from existing ones), Polymorphism (same interface, different implementations), Abstraction (hiding complex implementation details behind a simple interface).
+
+Q: What is the difference between abstract class and interface?
+A: Abstract classes can have concrete methods, constructors, instance variables, and state. Interfaces define a contract of method signatures (some languages allow default methods). A class can implement multiple interfaces but typically inherits from only one abstract class. Use abstract classes for shared implementation; interfaces for shared contracts.
+
+Q: Explain SOLID principles.
+A: S - Single Responsibility: a class should have one reason to change. O - Open/Closed: open for extension, closed for modification. L - Liskov Substitution: subclasses should be substitutable for base classes. I - Interface Segregation: clients shouldn't depend on interfaces they don't use. D - Dependency Inversion: depend on abstractions, not concretions.
+
+Q: What is polymorphism? Give an example.
+A: Polymorphism allows objects of different types to be treated as objects of a common supertype. Runtime (dynamic) polymorphism via method overriding: a Shape reference can point to a Circle or Rectangle, and calling draw() invokes the correct implementation. Compile-time polymorphism via method overloading.
+
+=== DATABASES ===
+
+Q: What is the difference between SQL and NoSQL databases?
+A: SQL databases are relational, use structured schemas, ACID transactions, and are best for complex queries and relationships (MySQL, PostgreSQL). NoSQL databases are schema-flexible, scale horizontally, and suit unstructured or semi-structured data (MongoDB, Redis, Cassandra). NoSQL trades consistency for availability and partition tolerance (CAP theorem).
+
+Q: Explain database normalization.
+A: Normalization organizes tables to reduce data redundancy and improve integrity. 1NF: atomic values, no repeating groups. 2NF: no partial dependencies on composite keys. 3NF: no transitive dependencies. BCNF: stronger 3NF. Denormalization trades redundancy for read performance.
+
+Q: What is an index in databases?
+A: An index is a data structure (typically B-tree or hash) that speeds up data retrieval at the cost of additional storage and slower writes. Indexes on frequently queried columns dramatically reduce full table scans. Composite indexes cover multiple columns. Trade-off: read speed vs. write overhead and storage.
+
+Q: What are ACID properties?
+A: Atomicity: transaction is all-or-nothing. Consistency: data remains valid after transaction. Isolation: concurrent transactions appear sequential. Durability: committed transactions survive failures. These ensure reliable transaction processing in relational databases.
+
+=== SYSTEM DESIGN ===
+
+Q: How would you design a URL shortener?
+A: Components: API server, database (maps short codes to long URLs), cache (Redis for popular URLs), load balancer. Short code generation: base62 encoding of auto-increment ID or MD5 hash. Handle redirects with 301/302 responses. Scale: read-heavy, so cache aggressively. Consider analytics, expiry, and custom aliases.
+
+Q: What is the difference between horizontal and vertical scaling?
+A: Vertical scaling (scale up) adds more resources to a single server (CPU, RAM). Horizontal scaling (scale out) adds more servers. Horizontal scaling is more cost-effective and fault-tolerant at scale but requires stateless application design, load balancing, and distributed data management.
+
+Q: Explain microservices vs monolithic architecture.
+A: Monolithic: single deployable unit, simpler development and debugging, but hard to scale and deploy independently. Microservices: independent services communicating via APIs, enabling independent deployment and scaling, technology diversity, and fault isolation. Microservices add operational complexity (service discovery, distributed tracing, network latency).
+
+=== PYTHON SPECIFIC ===
+
+Q: What is the difference between a list and a tuple in Python?
+A: Lists are mutable (elements can be changed), use more memory, and are slower for iteration. Tuples are immutable, more memory-efficient, hashable (can be dictionary keys), and slightly faster. Use tuples for fixed data; lists for collections that change.
+
+Q: What are Python decorators?
+A: Decorators are functions that wrap another function to modify its behavior without changing its source code. Syntax: @decorator_name above function definition. Common uses: logging, authentication, memoization, timing, access control. They leverage Python's first-class functions and closures.
+
+Q: Explain Python's GIL.
+A: The Global Interpreter Lock (GIL) is a mutex in CPython that allows only one thread to execute Python bytecode at a time. This limits true CPU parallelism in multi-threaded code. Workarounds: multiprocessing module (separate processes, separate GIL), async I/O for I/O-bound tasks, or using C extensions that release the GIL.
+
+Q: What is a generator in Python?
+A: A generator is a function that yields values one at a time using the yield keyword, producing an iterator. It is memory-efficient for large sequences since values are generated lazily. Generator expressions: (x*2 for x in range(1000)). Use when processing large datasets or infinite sequences.
+
+=== WEB DEVELOPMENT ===
+
+Q: What is the difference between REST and GraphQL?
+A: REST uses fixed endpoints returning predetermined data structures; multiple endpoints for different resources. GraphQL uses a single endpoint; clients specify exactly what data they need, reducing over-fetching and under-fetching. REST is simpler and cacheable; GraphQL is flexible for complex, nested data requirements.
+
+Q: What is CORS and why is it needed?
+A: Cross-Origin Resource Sharing is a browser security mechanism that restricts web pages from making requests to a different domain than the one serving the page. The server must include appropriate Access-Control-Allow-Origin headers to permit cross-origin requests. Needed to prevent malicious sites from making unauthorized requests using stored credentials.
+
+Q: Explain HTTP status codes.
+A: 2xx Success: 200 OK, 201 Created, 204 No Content. 3xx Redirection: 301 Moved Permanently, 302 Found, 304 Not Modified. 4xx Client Error: 400 Bad Request, 401 Unauthorized, 403 Forbidden, 404 Not Found, 429 Too Many Requests. 5xx Server Error: 500 Internal Server Error, 502 Bad Gateway, 503 Service Unavailable.

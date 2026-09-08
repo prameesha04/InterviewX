@@ -1,0 +1,377 @@
+{% extends "base.html" %}
+{% block title %}Interview Session{% endblock %}
+
+{% block content %}
+<div class="interview-layout">
+
+  <!-- ── Left: Session info sidebar ── -->
+  <aside class="interview-sidebar">
+    <div class="card sidebar-card">
+      <div class="sidebar-profile">
+        <div class="candidate-avatar">{{ profile.name[0].upper() }}</div>
+        <div class="candidate-info">
+          <strong>{{ profile.name }}</strong>
+          <span>{{ profile.target_role }}</span>
+          <span class="skill-badge">{{ profile.skill_level | capitalize }}</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="card sidebar-card">
+      <h3 class="sidebar-section-title">Session Progress</h3>
+      <div class="progress-wrap">
+        <div class="progress-bar-container">
+          <div id="progressBar" class="progress-bar" style="width: 0%"></div>
+        </div>
+        <div class="progress-label">
+          <span id="progressText">0 / <span id="totalQuestionsLabel">—</span></span>
+          <span id="progressPct">0%</span>
+        </div>
+      </div>
+      <div id="questionTypeBadge" class="question-type-badge"></div>
+    </div>
+
+    <div class="card sidebar-card">
+      <h3 class="sidebar-section-title">Profile Summary</h3>
+      <div class="readiness-mini">
+        <span class="readiness-mini-label">Readiness</span>
+        <span id="readinessMini" class="readiness-mini-score">{{ analysis.readiness_score }}/10</span>
+      </div>
+      <div class="focus-mini">
+        {% for area in analysis.focus_areas %}
+          <span class="tag tag-sm">{{ area }}</span>
+        {% endfor %}
+      </div>
+    </div>
+
+    <div class="card sidebar-card scores-sidebar" id="scoresSidebar">
+      <h3 class="sidebar-section-title">Scores So Far</h3>
+      <div id="scoresList" class="scores-list"></div>
+    </div>
+  </aside>
+
+  <!-- ── Right: Main interview panel ── -->
+  <div class="interview-main">
+
+    <!-- Loading state (before session starts) -->
+    <div id="loadingState" class="card interview-card">
+      <div class="loading-state">
+        <div class="spinner"></div>
+        <h3>Preparing Your Interview Session</h3>
+        <p>AI is generating personalized questions based on your profile…</p>
+      </div>
+    </div>
+
+    <!-- Question panel -->
+    <div id="questionPanel" class="card interview-card hidden">
+      <div class="question-header">
+        <div class="question-meta">
+          <span id="questionNumber" class="q-number">Q1</span>
+          <span id="questionType" class="q-type-label"></span>
+          <span id="questionDifficulty" class="q-difficulty"></span>
+          <span id="questionTopic" class="q-topic"></span>
+        </div>
+        <div id="questionTimer" class="question-timer">00:00</div>
+      </div>
+
+      <div id="questionText" class="question-text"></div>
+
+      <div class="answer-section">
+        <label for="answerInput" class="answer-label">Your Answer</label>
+        <textarea
+          id="answerInput"
+          class="answer-textarea"
+          placeholder="Type your answer here. Be specific — include examples, explanations, and reasoning where applicable…"
+          rows="8"
+        ></textarea>
+        <div class="answer-meta">
+          <span id="charCount" class="char-count">0 characters</span>
+        </div>
+      </div>
+
+      <div class="question-actions">
+        <button id="submitAnswerBtn" class="btn btn-primary btn-lg">
+          <span class="btn-text">Submit Answer</span>
+          <span class="btn-loader hidden">Evaluating…</span>
+        </button>
+        <button id="skipBtn" class="btn btn-ghost">Skip</button>
+      </div>
+    </div>
+
+    <!-- Evaluation panel (shown after answer submitted) -->
+    <div id="evaluationPanel" class="card interview-card hidden">
+      <div class="eval-header">
+        <h2 class="eval-title">Answer Evaluation</h2>
+        <div class="eval-score-wrap">
+          <div id="evalScore" class="eval-score">—</div>
+          <div class="eval-score-label">out of 10</div>
+        </div>
+      </div>
+
+      <div id="evalOverall" class="eval-overall"></div>
+
+      <div class="eval-grid">
+        <div class="eval-col">
+          <h4 class="eval-col-title strengths-title">✓ Strengths</h4>
+          <ul id="evalStrengths" class="eval-list eval-list-green"></ul>
+        </div>
+        <div class="eval-col">
+          <h4 class="eval-col-title weaknesses-title">✗ Weaknesses</h4>
+          <ul id="evalWeaknesses" class="eval-list eval-list-red"></ul>
+        </div>
+      </div>
+
+      <div class="eval-model-answer">
+        <h4 class="eval-col-title">💡 Model Answer</h4>
+        <div id="modelAnswer" class="model-answer-text"></div>
+      </div>
+
+      <div class="eval-recommendations">
+        <h4 class="eval-col-title">📌 Recommendations</h4>
+        <ul id="evalRecommendations" class="eval-list eval-list-blue"></ul>
+      </div>
+
+      <div class="eval-actions">
+        <button id="nextQuestionBtn" class="btn btn-primary">Next Question →</button>
+        <button id="viewResultsBtn" class="btn btn-success hidden">View Full Results</button>
+      </div>
+    </div>
+
+    <!-- Session complete state -->
+    <div id="completeState" class="card interview-card hidden">
+      <div class="complete-state">
+        <div class="complete-icon">🎉</div>
+        <h2>Interview Session Complete!</h2>
+        <p>All questions answered. Your full evaluation is ready.</p>
+        <a id="viewFullResultsLink" href="#" class="btn btn-primary btn-lg">View Full Results &amp; Score</a>
+      </div>
+    </div>
+
+  </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+  // ── Interview session state ──
+  let sessionId = null;
+  let totalQuestions = 0;
+  let currentQuestionIndex = 0;
+  let currentQuestion = null;
+  let scores = [];
+  let timerInterval = null;
+  let timerSeconds = 0;
+
+  // ── DOM refs ──
+  const loadingState = document.getElementById('loadingState');
+  const questionPanel = document.getElementById('questionPanel');
+  const evaluationPanel = document.getElementById('evaluationPanel');
+  const completeState = document.getElementById('completeState');
+  const submitAnswerBtn = document.getElementById('submitAnswerBtn');
+  const skipBtn = document.getElementById('skipBtn');
+  const nextQuestionBtn = document.getElementById('nextQuestionBtn');
+  const viewResultsBtn = document.getElementById('viewResultsBtn');
+  const answerInput = document.getElementById('answerInput');
+
+  // ── Start session on page load ──
+  window.addEventListener('DOMContentLoaded', async () => {
+    try {
+      const res = await fetch('/interview/next', { method: 'POST',
+        headers: { 'Content-Type': 'application/json' }, body: '{}' });
+
+      if (!res.ok) {
+        showToast('Could not load session — please start a new one from the profile page.', 'error');
+        return;
+      }
+      const data = await res.json();
+      if (data.done) {
+        showComplete();
+        return;
+      }
+      totalQuestions = data.total_questions;
+      document.getElementById('totalQuestionsLabel').textContent = totalQuestions;
+      showQuestion(data.question, data.question_number);
+    } catch (e) {
+      showToast('Failed to load interview session.', 'error');
+    }
+  });
+
+  // ── Character counter ──
+  answerInput.addEventListener('input', () => {
+    document.getElementById('charCount').textContent = answerInput.value.length + ' characters';
+  });
+
+  // ── Submit answer ──
+  submitAnswerBtn.addEventListener('click', async () => {
+    const answer = answerInput.value.trim();
+    if (!answer) {
+      showToast('Please write an answer before submitting.', 'warning');
+      return;
+    }
+    setLoading(submitAnswerBtn, true, 'Evaluating…');
+    stopTimer();
+
+    try {
+      const res = await fetch('/interview/answer', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ answer }),
+      });
+      const data = await res.json();
+
+      if (!res.ok) {
+        showToast(data.error || 'Submission failed.', 'error');
+        return;
+      }
+
+      sessionId = data.session_id;
+      scores.push(data.evaluation.score);
+      updateScoresSidebar(data.question_index, data.evaluation.score);
+      renderEvaluation(data.evaluation, data.is_complete);
+
+      if (data.is_complete) {
+        viewResultsBtn.classList.remove('hidden');
+        nextQuestionBtn.classList.add('hidden');
+        document.getElementById('viewFullResultsLink').href = '/results/' + sessionId;
+      }
+
+    } catch (e) {
+      showToast('Network error — please try again.', 'error');
+    } finally {
+      setLoading(submitAnswerBtn, false, 'Submit Answer');
+    }
+  });
+
+  // ── Skip question ──
+  skipBtn.addEventListener('click', async () => {
+    answerInput.value = '[Skipped]';
+    submitAnswerBtn.click();
+  });
+
+  // ── Next question ──
+  nextQuestionBtn.addEventListener('click', async () => {
+    try {
+      const res = await fetch('/interview/next', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: '{}',
+      });
+      const data = await res.json();
+
+      if (data.done) {
+        showComplete();
+        return;
+      }
+      showQuestion(data.question, data.question_number);
+    } catch (e) {
+      showToast('Failed to load next question.', 'error');
+    }
+  });
+
+  // ── View results ──
+  viewResultsBtn.addEventListener('click', () => {
+    if (sessionId) window.location.href = '/results/' + sessionId;
+  });
+
+  // ── Render question ──
+  function showQuestion(question, questionNumber) {
+    currentQuestion = question;
+    currentQuestionIndex = questionNumber - 1;
+
+    hide(loadingState); hide(evaluationPanel); hide(completeState);
+    show(questionPanel);
+
+    document.getElementById('questionNumber').textContent = 'Q' + questionNumber;
+    document.getElementById('questionText').textContent = question.question;
+    document.getElementById('questionType').textContent = question.type;
+    document.getElementById('questionDifficulty').textContent = question.difficulty;
+    document.getElementById('questionTopic').textContent = question.topic;
+    document.getElementById('questionType').className = 'q-type-label type-' + question.type;
+    document.getElementById('questionDifficulty').className = 'q-difficulty diff-' + question.difficulty;
+    document.getElementById('questionTypeBadge').textContent = question.type.toUpperCase() + ' — ' + question.topic;
+
+    answerInput.value = '';
+    document.getElementById('charCount').textContent = '0 characters';
+
+    updateProgress(questionNumber, totalQuestions);
+    startTimer();
+  }
+
+  // ── Render evaluation ──
+  function renderEvaluation(ev, isComplete) {
+    hide(questionPanel); show(evaluationPanel);
+
+    const scoreEl = document.getElementById('evalScore');
+    scoreEl.textContent = ev.score;
+    scoreEl.className = 'eval-score ' +
+      (ev.score >= 7 ? 'score-green' : ev.score >= 5 ? 'score-amber' : 'score-red');
+
+    document.getElementById('evalOverall').textContent = ev.overall_comment;
+
+    renderList('evalStrengths', ev.strengths);
+    renderList('evalWeaknesses', ev.weaknesses);
+    renderList('evalRecommendations', ev.recommendations);
+
+    document.getElementById('modelAnswer').textContent = ev.model_answer;
+
+    if (isComplete) {
+      nextQuestionBtn.classList.add('hidden');
+      viewResultsBtn.classList.remove('hidden');
+    } else {
+      nextQuestionBtn.classList.remove('hidden');
+      viewResultsBtn.classList.add('hidden');
+    }
+  }
+
+  function renderList(elementId, items) {
+    const el = document.getElementById(elementId);
+    el.innerHTML = '';
+    (items || []).forEach(item => {
+      const li = document.createElement('li');
+      li.textContent = item;
+      el.appendChild(li);
+    });
+  }
+
+  function updateProgress(current, total) {
+    const pct = Math.round((current / total) * 100);
+    document.getElementById('progressBar').style.width = pct + '%';
+    document.getElementById('progressText').innerHTML = current + ' / <span id="totalQuestionsLabel">' + total + '</span>';
+    document.getElementById('progressPct').textContent = pct + '%';
+  }
+
+  function updateScoresSidebar(idx, score) {
+    const list = document.getElementById('scoresList');
+    const item = document.createElement('div');
+    item.className = 'score-item';
+    item.innerHTML = `<span class="score-q-label">Q${idx + 1}</span>
+      <div class="score-mini-bar"><div class="score-mini-fill" style="width:${score * 10}%;background:${score>=7?'var(--green)':score>=5?'var(--amber)':'var(--red)'}"></div></div>
+      <span class="score-mini-val">${score}/10</span>`;
+    list.appendChild(item);
+  }
+
+  function showComplete() {
+    hide(loadingState); hide(questionPanel); hide(evaluationPanel);
+    show(completeState);
+    if (sessionId) document.getElementById('viewFullResultsLink').href = '/results/' + sessionId;
+  }
+
+  // ── Timer ──
+  function startTimer() {
+    timerSeconds = 0;
+    stopTimer();
+    timerInterval = setInterval(() => {
+      timerSeconds++;
+      const m = String(Math.floor(timerSeconds / 60)).padStart(2, '0');
+      const s = String(timerSeconds % 60).padStart(2, '0');
+      document.getElementById('questionTimer').textContent = m + ':' + s;
+    }, 1000);
+  }
+  function stopTimer() {
+    if (timerInterval) clearInterval(timerInterval);
+  }
+
+  function show(el) { el.classList.remove('hidden'); }
+  function hide(el) { el.classList.add('hidden'); }
+</script>
+{% endblock %}

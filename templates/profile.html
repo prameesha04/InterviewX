@@ -1,0 +1,283 @@
+{% extends "base.html" %}
+{% block title %}Candidate Profile{% endblock %}
+
+{% block content %}
+<div class="page-header">
+  <h1 class="page-title">Candidate Profile</h1>
+  <p class="page-subtitle">Tell us about yourself so we can personalize your interview session.</p>
+</div>
+
+<div class="profile-layout">
+  <!-- ── Profile Form ── -->
+  <div class="card profile-form-card">
+    <div class="card-header">
+      <h2>Your Information</h2>
+      <p>All fields help the AI generate more relevant questions and feedback.</p>
+    </div>
+    <form id="profileForm" class="profile-form" novalidate>
+
+      <div class="form-section">
+        <h3 class="form-section-title">Basic Details</h3>
+        <div class="form-row">
+          <div class="form-group">
+            <label for="name">Full Name <span class="required">*</span></label>
+            <input type="text" id="name" name="name" placeholder="e.g., Alex Johnson" required />
+          </div>
+          <div class="form-group">
+            <label for="education">Education</label>
+            <input type="text" id="education" name="education" placeholder="e.g., B.Tech Computer Science, 2024" />
+          </div>
+        </div>
+      </div>
+
+      <div class="form-section">
+        <h3 class="form-section-title">Target Role</h3>
+        <div class="form-row">
+          <div class="form-group">
+            <label for="target_role">Target Job Role <span class="required">*</span></label>
+            <div class="input-with-suggestions">
+              <input type="text" id="target_role" name="target_role"
+                     placeholder="e.g., Software Engineer, Data Scientist..."
+                     autocomplete="off" required />
+              <div class="role-suggestions">
+                <button type="button" class="suggestion-pill" data-value="Software Engineer">Software Engineer</button>
+                <button type="button" class="suggestion-pill" data-value="Full Stack Developer">Full Stack Developer</button>
+                <button type="button" class="suggestion-pill" data-value="Backend Developer">Backend Developer</button>
+                <button type="button" class="suggestion-pill" data-value="Frontend Developer">Frontend Developer</button>
+                <button type="button" class="suggestion-pill" data-value="Data Scientist">Data Scientist</button>
+                <button type="button" class="suggestion-pill" data-value="ML Engineer">ML Engineer</button>
+                <button type="button" class="suggestion-pill" data-value="DevOps Engineer">DevOps Engineer</button>
+                <button type="button" class="suggestion-pill" data-value="Product Manager">Product Manager</button>
+                <button type="button" class="suggestion-pill" data-value="Cybersecurity Analyst">Cybersecurity Analyst</button>
+              </div>
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="skill_level">Skill Level <span class="required">*</span></label>
+            <select id="skill_level" name="skill_level" required>
+              <option value="fresher">Fresher / Fresh Graduate</option>
+              <option value="junior">Junior (1–2 years)</option>
+              <option value="mid">Mid-Level (2–5 years)</option>
+              <option value="senior">Senior (5+ years)</option>
+            </select>
+          </div>
+        </div>
+      </div>
+
+      <div class="form-section">
+        <h3 class="form-section-title">Skills & Experience</h3>
+        <div class="form-group">
+          <label for="skills">Technical Skills</label>
+          <input type="text" id="skills" name="skills"
+                 placeholder="e.g., Python, React, SQL, Docker, REST APIs, Git..." />
+          <span class="form-hint">Comma-separated list of technologies, languages, and tools you know.</span>
+        </div>
+        <div class="form-group">
+          <label for="experience">Experience Summary</label>
+          <textarea id="experience" name="experience" rows="4"
+                    placeholder="Describe your work experience, internships, academic projects, or relevant activities. Be specific about what you built and your role."></textarea>
+          <span class="form-hint">The more specific you are, the more relevant your interview questions will be.</span>
+        </div>
+      </div>
+
+      <div class="form-section">
+        <h3 class="form-section-title">Session Configuration</h3>
+        <div class="form-group">
+          <label for="num_questions">Number of Questions</label>
+          <div class="range-input-wrap">
+            <input type="range" id="num_questions" name="num_questions"
+                   min="3" max="15" value="8" />
+            <span class="range-value" id="numQuestionsDisplay">8 questions</span>
+          </div>
+          <span class="form-hint">More questions = more comprehensive evaluation. Recommended: 8–10.</span>
+        </div>
+      </div>
+
+      <div class="form-actions">
+        <button type="submit" class="btn btn-primary btn-lg" id="analyzeBtn">
+          <span class="btn-text">Analyze Profile &amp; Continue</span>
+          <span class="btn-loader hidden">Analyzing with AI…</span>
+        </button>
+      </div>
+    </form>
+  </div>
+
+  <!-- ── Analysis Results panel ── -->
+  <div id="analysisPanel" class="analysis-panel hidden">
+    <div class="card">
+      <div class="card-header">
+        <h2>Profile Analysis</h2>
+        <p>AI-generated assessment based on your profile.</p>
+      </div>
+
+      <div class="analysis-readiness">
+        <div class="readiness-label">Interview Readiness</div>
+        <div class="readiness-score-wrap">
+          <div class="readiness-ring" id="readinessRing">
+            <span id="readinessScore">—</span>
+            <small>/10</small>
+          </div>
+        </div>
+      </div>
+
+      <div id="analysisSummary" class="analysis-summary"></div>
+
+      <div class="analysis-columns">
+        <div class="analysis-col">
+          <h4 class="col-title col-strengths">✓ Strengths</h4>
+          <ul id="strengthsList" class="analysis-list list-green"></ul>
+        </div>
+        <div class="analysis-col">
+          <h4 class="col-title col-gaps">⚠ Skill Gaps</h4>
+          <ul id="gapsList" class="analysis-list list-amber"></ul>
+        </div>
+      </div>
+
+      <div class="analysis-focus">
+        <h4 class="col-title">🎯 Focus Areas for This Session</h4>
+        <div id="focusAreas" class="tag-list"></div>
+      </div>
+
+      <div class="analysis-actions">
+        <button id="startInterviewBtn" class="btn btn-primary btn-lg" disabled>
+          Start Interview Session
+        </button>
+        <span class="form-hint" id="questionCountHint"></span>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+  // Profile page logic
+  const form = document.getElementById('profileForm');
+  const analyzeBtn = document.getElementById('analyzeBtn');
+  const analysisPanel = document.getElementById('analysisPanel');
+  const startInterviewBtn = document.getElementById('startInterviewBtn');
+  const numQuestionsInput = document.getElementById('num_questions');
+  const numQuestionsDisplay = document.getElementById('numQuestionsDisplay');
+
+  // Range display
+  numQuestionsInput.addEventListener('input', () => {
+    numQuestionsDisplay.textContent = numQuestionsInput.value + ' questions';
+  });
+
+  // Role suggestion pills
+  document.querySelectorAll('.suggestion-pill').forEach(pill => {
+    pill.addEventListener('click', () => {
+      document.getElementById('target_role').value = pill.dataset.value;
+      document.querySelectorAll('.suggestion-pill').forEach(p => p.classList.remove('active'));
+      pill.classList.add('active');
+    });
+  });
+
+  // Form submit — analyze profile
+  form.addEventListener('submit', async (e) => {
+    e.preventDefault();
+
+    const formData = {
+      name: document.getElementById('name').value.trim(),
+      education: document.getElementById('education').value.trim(),
+      skills: document.getElementById('skills').value.trim(),
+      experience: document.getElementById('experience').value.trim(),
+      target_role: document.getElementById('target_role').value.trim(),
+      skill_level: document.getElementById('skill_level').value,
+    };
+
+    if (!formData.name || !formData.target_role) {
+      showToast('Name and Target Role are required.', 'error');
+      return;
+    }
+
+    setLoading(analyzeBtn, true);
+    analysisPanel.classList.add('hidden');
+
+    try {
+      const res = await fetch('/profile/analyze', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(formData),
+      });
+      const data = await res.json();
+
+      if (!res.ok) {
+        showToast(data.error || 'Analysis failed. Check your watsonx.ai configuration.', 'error');
+        return;
+      }
+
+      renderAnalysis(data.analysis);
+      analysisPanel.classList.remove('hidden');
+      analysisPanel.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      startInterviewBtn.disabled = false;
+      document.getElementById('questionCountHint').textContent =
+        `Session will include ${numQuestionsInput.value} personalized questions.`;
+
+    } catch (err) {
+      showToast('Network error — please check your connection.', 'error');
+    } finally {
+      setLoading(analyzeBtn, false);
+    }
+  });
+
+  function renderAnalysis(analysis) {
+    document.getElementById('readinessScore').textContent = analysis.readiness_score;
+    const ring = document.getElementById('readinessRing');
+    const score = analysis.readiness_score;
+    ring.className = 'readiness-ring ' + (score >= 7 ? 'ring-green' : score >= 5 ? 'ring-amber' : 'ring-red');
+
+    document.getElementById('analysisSummary').textContent = analysis.summary;
+
+    const strengthsList = document.getElementById('strengthsList');
+    strengthsList.innerHTML = '';
+    (analysis.strengths || []).forEach(s => {
+      const li = document.createElement('li');
+      li.textContent = s;
+      strengthsList.appendChild(li);
+    });
+
+    const gapsList = document.getElementById('gapsList');
+    gapsList.innerHTML = '';
+    (analysis.skill_gaps || []).forEach(g => {
+      const li = document.createElement('li');
+      li.textContent = g;
+      gapsList.appendChild(li);
+    });
+
+    const focusAreas = document.getElementById('focusAreas');
+    focusAreas.innerHTML = '';
+    (analysis.focus_areas || []).forEach(f => {
+      const tag = document.createElement('span');
+      tag.className = 'tag';
+      tag.textContent = f;
+      focusAreas.appendChild(tag);
+    });
+  }
+
+  // Start interview
+  startInterviewBtn.addEventListener('click', async () => {
+    setLoading(startInterviewBtn, true, 'Generating questions…');
+
+    try {
+      const res = await fetch('/interview/start', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ num_questions: parseInt(numQuestionsInput.value) }),
+      });
+      const data = await res.json();
+
+      if (!res.ok) {
+        showToast(data.error || 'Failed to start session.', 'error');
+        setLoading(startInterviewBtn, false, 'Start Interview Session');
+        return;
+      }
+
+      window.location.href = '/interview';
+    } catch (err) {
+      showToast('Network error — please try again.', 'error');
+      setLoading(startInterviewBtn, false, 'Start Interview Session');
+    }
+  });
+</script>
+{% endblock %}
